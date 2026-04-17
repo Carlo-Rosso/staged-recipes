@@ -1,0 +1,25 @@
+context:
+  name: abb_libegm
+  version: 1.0.0
+
+package:
+  name: ${{ name }}
+  version: ${{ version }}
+
+source:
+  git: https://github.com/ros-industrial/abb_libegm
+  rev: 2c9350abfb67131cae796805fed8cd6eeb2ab7f9
+
+build:
+  number: 3
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - cmake
+    - ninja
+  host:
+    - libprotobuf 3.21.* # main dependency for ABB EGM
+    - boost
+  run:
+    - libprotobuf 3.21.*
