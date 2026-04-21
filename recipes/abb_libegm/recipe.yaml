@@ -1,6 +1,6 @@
 context:
   name: abb_libegm
-  version: 1.0.0
+  version: 1.2.0
 
 package:
   name: ${{ name }}
@@ -22,4 +22,13 @@ requirements:
     - libprotobuf 3.21.* # main dependency for ABB EGM
     - boost
   run:
+    - libprotobuf 3.21.*
+
+tests:
+  - package_contents:
+      lib:
+        - abb_libegm
+      include:
+        - abb_libegm/egm_base_interface.h
+        - abb_libegm/egm_controller_interface.h
 
