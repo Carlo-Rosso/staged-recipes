@@ -1,4 +1,5 @@
 context:
+  # Version sourced from upstream package.xml
   name: abb_libegm
   version: 1.2.0
 
@@ -19,10 +20,10 @@ requirements:
     - cmake
     - ninja
   host:
-    - libprotobuf 3.21.* # main dependency for ABB EGM
+    - libprotobuf 3.21.* # pinned to 3.21 to avoid protobuf 7.x requiring newer MSVC/toolchain and causing ABI/build breaks
     - boost
   run:
-    - libprotobuf 3.21.*
+    - libprotobuf 3.21.* # keep runtime aligned with host to preserve ABI compatibility
 
 tests:
   - package_contents:
