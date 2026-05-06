@@ -1,6 +1,6 @@
 context:
   # Version sourced from upstream package.xml
-  name: abb_libegm
+  name: abb-libegm
   version: 1.2.0
 
 package:
