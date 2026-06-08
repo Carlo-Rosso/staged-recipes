@@ -1,0 +1,18 @@
+diff --git a/cmake/CMakeLists.txt b/cmake/CMakeLists.txt
+index 168b1f2..30df0b0 100644
+--- a/cmake/CMakeLists.txt
++++ b/cmake/CMakeLists.txt
+@@ -287,13 +287,7 @@ foreach(PROG ${PROGRAMS})
+     target_include_directories(${PROG} PUBLIC
+         "$<BUILD_INTERFACE:${LO_BUILD_INCLUDE_DIRS}>"
+         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
+-  if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+-    # For some yet unknown reasons, Windows has trouble finding the DLL
+-    target_link_libraries(${PROG} PUBLIC ${LIBRARY_STATIC})
+-  else()
+-    target_link_libraries(${PROG} PUBLIC ${LIBRARY_SHARED})
+-  endif()
++    target_link_libraries(${PROG} PUBLIC ${LIBRARY_SHARED})
+ endforeach(PROG)
+ 
+ foreach(PROG ${TOOLS})

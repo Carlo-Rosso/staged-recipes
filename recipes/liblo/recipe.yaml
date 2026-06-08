@@ -1,0 +1,70 @@
+context:
+  name: liblo
+  version: "0.35"
+
+package:
+  name: ${{ name }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/radarsat1/liblo/releases/download/${{ version }}/liblo-${{ version }}.tar.gz
+  sha256: 9acc4f7e5a24f33472e9acd7e409b7bd6810a46f0a1f3cfeecea22d60f3aae13
+  patches:
+    - cmake-link-tools-to-shared-on-windows.patch
+
+build:
+  number: 0
+  script:
+    - if: win
+      then: cmake -S cmake -B build -G Ninja %CMAKE_ARGS% -D CMAKE_BUILD_TYPE=Release -D WITH_TESTS=OFF -D WITH_CPP_TESTS=OFF -D WITH_EXAMPLES=OFF
+    - if: not win
+      then: cmake -S cmake -B build -G Ninja $CMAKE_ARGS -D CMAKE_BUILD_TYPE=Release -D WITH_TESTS=OFF -D WITH_CPP_TESTS=OFF -D WITH_EXAMPLES=OFF
+    - cmake --build build --target install --config Release
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - cmake
+    - ninja
+  run_exports:
+    - ${{ pin_subpackage(name, upper_bound="x.x") }}
+
+tests:
+  - package_contents:
+      bin:
+        - oscdump
+        - oscsend
+        - oscsendfile
+      include:
+        - lo/lo.h
+        - lo/lo_cpp.h
+      files:
+        - if: win
+          then:
+            - Library/lib/cmake/liblo/libloConfig.cmake
+            - Library/lib/pkgconfig/liblo.pc
+        - if: not win
+          then:
+            - lib/cmake/liblo/libloConfig.cmake
+            - lib/pkgconfig/liblo.pc
+  - script:
+      - oscdump -h
+      - pkg-config --modversion liblo
+    requirements:
+      run:
+        - pkg-config
+
+about:
+  homepage: https://github.com/radarsat1/liblo
+  license: LGPL-2.1-or-later
+  license_file: COPYING
+  summary: A lightweight Open Sound Control server/client library
+  description: |
+    liblo is a lightweight library that provides an easy to use
+    implementation of the Open Sound Control protocol.
+  repository: https://github.com/radarsat1/liblo
+
+extra:
+  recipe-maintainers:
+    - Carlo-Rosso
