@@ -1,0 +1,44 @@
+context:
+  # Version sourced from upstream package.xml
+  name: abb-librws
+  version: 1.0.0
+
+package:
+  name: ${{ name }}
+  version: ${{ version }}
+
+source:
+  git: https://github.com/Carlo-Rosso/abb_librws
+  rev: b23ecabdd645114adaff3c84f9db3ba09a7e089b
+build:
+  number: 0
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - cmake
+    - ninja
+
+  host:
+    - poco
+
+tests:
+  - package_contents:
+      lib:
+        - abb_librws
+      include:
+        - abb_librws/rws_interface.h
+        - abb_librws/rws_common.h
+
+about:
+  homepage: https://github.com/Carlo-Rosso/abb_librws
+  license: BSD-3-Clause
+  license_file: LICENSE
+  summary: ABB ROS2 RWS client library
+  description: |
+    A C++ library for interfacing with ABB robot controllers supporting Robot Web Services
+  repository: https://github.com/Carlo-Rosso/abb_librws
+
+extra:
+  recipe-maintainers:
+    - Carlo-Rosso
